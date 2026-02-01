@@ -1,0 +1,144 @@
+from IPython.display import HTML
+
+HTML('''
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Will You Be My Valentine? </title>
+
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: white;
+        }
+
+        button {
+            font-size: 1.2rem;
+            padding: 12px 25px;
+            margin: 10px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        #yes {
+            background-color: #ff4d6d;
+            color: white;
+        }
+
+        #no {
+            position: absolute;
+            background-color: #555;
+            color: white;
+        }
+
+        /* Floating hearts */
+        .heart {
+            position: absolute;
+            bottom: -20px;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="container" id="page1">
+    <h1>Will you be my Valentine this Feb 14? 💘</h1>
+    <button id="yes" onclick="yesClicked()">Yes ❤️</button>
+    <button id="no">No 💔</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="container" id="page2" style="display:none;">
+    <h1>YAYYY 💕</h1>
+    <h2>Thank you for being my Valentine 💖</h2>
+    <h2>I can’t wait to celebrate Feb 14 with you 😘</h2>
+</div>
+
+<script>
+    /* --------- NO BUTTON PANIC MODE --------- */
+    const noBtn = document.getElementById("no");
+    let panicLevel = 1;
+
+    noBtn.addEventListener("mouseover", () => {
+        panicLevel++;
+
+        const maxX = window.innerWidth - 100;
+        const maxY = window.innerHeight - 50;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+
+        // Panic effects
+        noBtn.style.transform = `scale(${1 + panicLevel * 0.05}) rotate(${panicLevel * 10}deg)`;
+        noBtn.innerText = panicLevel > 5 ? "STOP 😭" : "No 💔";
+    });
+
+    /* --------- YES BUTTON --------- */
+    function yesClicked() {
+        document.getElementById("page1").style.display = "none";
+        document.getElementById("page2").style.display = "block";
+    }
+
+    /* --------- FLOATING HEARTS --------- */
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerText = "❤️";
+
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+
+    setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
+''')
